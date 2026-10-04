@@ -1,3 +1,4 @@
+D:\Projetos-Git\target-sistemas\comissao\bin\Debug\net10.0\comissao.json
 D:\Projetos-Git\target-sistemas\comissao\bin\Debug\net10.0\comissao.exe
 D:\Projetos-Git\target-sistemas\comissao\bin\Debug\net10.0\comissao.deps.json
 D:\Projetos-Git\target-sistemas\comissao\bin\Debug\net10.0\comissao.runtimeconfig.json
@@ -13,4 +14,3 @@ D:\Projetos-Git\target-sistemas\comissao\obj\Debug\net10.0\refint\comissao.dll
 D:\Projetos-Git\target-sistemas\comissao\obj\Debug\net10.0\comissao.pdb
 D:\Projetos-Git\target-sistemas\comissao\obj\Debug\net10.0\comissao.genruntimeconfig.cache
 D:\Projetos-Git\target-sistemas\comissao\obj\Debug\net10.0\ref\comissao.dll
-d:\Projetos-Git\target-sistemas\comissao\bin\Debug\net10.0\comissao.json

@@ -6,8 +6,7 @@ if (File.Exists(comissao))
 {
     string json = File.ReadAllText(comissao);
     var documento = JsonSerializer.Deserialize<RelatorioVendas>(json);
-
-    CalculadoraComissao.ProcessarComissoes(documento.Vendas);
+    
     var resumo = CalculadoraComissao.GerarRelatorioPorVendedor(documento.Vendas);
 
     Console.WriteLine("--- RESUMO DE COMISSÕES POR VENDEDOR ---");

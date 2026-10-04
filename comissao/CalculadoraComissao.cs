@@ -1,23 +1,15 @@
 public static class CalculadoraComissao
 {
-    public static double ObterComissao(double valorVenda)
+    public static decimal ObterComissao(decimal valorVenda)
     {
         if(valorVenda < 100) 
-            return 0.0;
+            return 0.0m;
     
         if(valorVenda < 500)
-            return Math.Round(valorVenda * 0.01, 2);
+            return Math.Round(valorVenda * 0.01m, 2);
         else
-            return Math.Round(valorVenda * 0.05, 2);
+            return Math.Round(valorVenda * 0.05m, 2);
         
-    }
-
-    public static void ProcessarComissoes(List<Venda> vendas)
-    {
-        foreach (var venda in vendas)
-        {
-            double comissao = ObterComissao(venda.Valor);
-        }
     }
 
     public static List<ResumoComissao> GerarRelatorioPorVendedor(List<Venda> vendas)
