@@ -1,0 +1,23 @@
+﻿decimal taxaJuros = 0.025m;
+
+Console.WriteLine("=== CALCULAR JUROS ===");
+Console.Write("Valor da Conta: [1000.00]: R$ ");
+decimal valorInicial = decimal.Parse(Console.ReadLine());
+Console.Write("Dia de vencimento: [dd]: ");
+int diaVencimento = int.Parse(Console.ReadLine());
+Console.Write("Mês de vencimento: [mm]: ");
+int mesVencimento = int.Parse(Console.ReadLine());
+Console.Write("Ano de vencimento: [yyyy]: ");
+int anoVencimento = int.Parse(Console.ReadLine());
+
+DateTime dataVencimento = new DateTime(anoVencimento, mesVencimento, diaVencimento);
+if(dataVencimento > DateTime.Today)
+{
+    Console.WriteLine("\n\t*** A data de vencimento não pode ser maior que a data atual.***\n");
+    return;
+}
+
+int diasVencidos = (DateTime.Today - dataVencimento.Date).Days;
+var juros = CalculadoraJuros.CalcularJuros(valorInicial, taxaJuros, diasVencidos);
+Console.WriteLine($"\nDias de atraso: {diasVencidos} dias");
+Console.WriteLine($"\n--- Valor final com juros: R$ {juros:F2} ---\n");
