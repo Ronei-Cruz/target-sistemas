@@ -1,30 +1,21 @@
 public static class MovimentacaoEstoque
 {
-    public static void AtualizarEstoque(List<Estoque> estoque, List<Estoque> vendas)
-    {
-        foreach (var venda in vendas)
-        {
-            var produto = estoque.FirstOrDefault(e => e.CodProduto == venda.CodProduto);
-            if (produto != null)
-            {
-                produto.Quantidade -= venda.Quantidade;
-            }
-        }
-    }
-
-    public static void AdicionarProduto(int codProduto, string desProduto, int quantidade, List<Estoque> estoque)
+    public static void AdicionarProduto(int codProduto, string desProduto, int quantidade, List<Estoque> estoque, List<HistoricoEstoque> historicoMovimentacao)
     {
         Console.Clear();
-        var resumo = new List<Estoque>();
+
         var produtoExistente = estoque.FirstOrDefault(e => e.CodProduto == codProduto);
         if (produtoExistente != null)
         {
-            Console.WriteLine($"Produto existente: {produtoExistente.DesProduto}, Quantidade atual: {produtoExistente.Quantidade}");
-            Console.WriteLine("Deseja continuar? (S/N)");
+            Console.WriteLine("**** ATENÇÃO ****\nProduto em estoque.");
+            Console.WriteLine($"Código: {produtoExistente.CodProduto}\nDescrição: {produtoExistente.DesProduto}\nQuantidade atual: {produtoExistente.Quantidade}");
+            Console.WriteLine("Confirmar Produto? (S/N)");
             string continuar = Console.ReadLine();
             if (continuar.ToUpper() == "S")
             {
+                produtoExistente.DesProduto = produtoExistente.DesProduto ?? desProduto;
                 produtoExistente.Quantidade += quantidade;
+                HistoricoMovimentacao(codProduto, produtoExistente.DesProduto, quantidade, "ENTRADA", historicoMovimentacao);
             }
         }
         else
@@ -35,27 +26,34 @@ public static class MovimentacaoEstoque
                 DesProduto = desProduto,
                 Quantidade = quantidade
             });
+
+            HistoricoMovimentacao(codProduto, desProduto, quantidade, "ENTRADA", historicoMovimentacao);
         }
 
-        resumo.Add(new Estoque
-        {
-            CodProduto = codProduto,
-            Quantidade = produtoExistente?.Quantidade ?? quantidade
-        });
     }
 
-    public static void RemoverProduto( int codProduto, int quantidade, List<Estoque> estoque)
+    public static void RemoverProduto( int codProduto, int quantidade, List<Estoque> estoque,List<HistoricoEstoque> historicoMovimentacao)
     {
         Console.Clear();
         var produtoExistente = estoque.FirstOrDefault(e => e.CodProduto == codProduto);
-        if (produtoExistente != null && produtoExistente.Quantidade >= quantidade)
+        Console.WriteLine("**** ATENÇÃO ****\nProduto em estoque.");
+        Console.WriteLine($"Código: {produtoExistente.CodProduto}\nDescrição: {produtoExistente.DesProduto}\nQuantidade atual: {produtoExistente.Quantidade}");
+        Console.WriteLine("Confirmar Produto? (S/N)");
+        string continuar = Console.ReadLine();
+        if (produtoExistente != null && produtoExistente.Quantidade >= quantidade && continuar.ToUpper() == "S")
         {
             produtoExistente.Quantidade -= quantidade;
+            var produtoAtualizado = estoque.FirstOrDefault(e => e.CodProduto == codProduto);
+            HistoricoMovimentacao(codProduto, produtoExistente.DesProduto, quantidade, "SAÍDA", historicoMovimentacao);
+
+            if (produtoAtualizado != null && produtoAtualizado.Quantidade == 0)
+            {
+                estoque.Remove(produtoAtualizado);
+            }
         }
-        var produtoAtualizado = estoque.FirstOrDefault(e => e.CodProduto == codProduto);
-        if (produtoAtualizado != null && produtoAtualizado.Quantidade == 0)
+        else
         {
-            estoque.Remove(produtoAtualizado);
+            Console.WriteLine("Estoque insuficiente ou produto não encontrado.");
         }
     }
 
@@ -66,6 +64,36 @@ public static class MovimentacaoEstoque
         foreach (var item in estoque)
             Console.WriteLine(
                 $"Produto: {item.CodProduto,-5} | Descrição: {item.DesProduto,-25} | Estoque: {item.Quantidade,6}");
+    }
+
+    public static void HistoricoMovimentacao(int codProduto, string desProduto, int quantidade, string movimentacao, List<HistoricoEstoque> historicoMovimentacao)
+    {   
+        historicoMovimentacao.Add (new HistoricoEstoque
+        {
+            CodProduto = codProduto,
+            DesProduto = desProduto,
+            Movimentacao = movimentacao, 
+            Quantidade = quantidade,
+            DataMovimentacao = DateTime.Now
+        });
+    }
+
+    public static void ListarHistoricoMovimentacao(List<HistoricoEstoque> historico)
+    {
+        Console.Clear();
+        Console.WriteLine("=== HISTÓRICO DE MOVIMENTAÇÕES  ===");
+
+        if (historico.Count == 0)
+        {
+            Console.WriteLine("Nenhuma movimentação realizada nesta sessão.");
+            return;
+        }
+
+        foreach (var item in historico)
+        {
+            Console.WriteLine($"\n[{item.DataMovimentacao:dd/MM/yyyy HH:mm:ss}] \nCód: {item.CodProduto} \nProduto: {item.DesProduto,-15} \nTipo: {item.Movimentacao,-7} \nQuantidade: {item.Quantidade}");
+            Console.WriteLine(new string('-', 25));
+        }
     }
     
     public static void PressionarParaContinuar()

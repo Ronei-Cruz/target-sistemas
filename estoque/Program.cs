@@ -7,21 +7,26 @@ if (File.Exists(estoque))
     string json = File.ReadAllText(estoque);
     var documento = JsonSerializer.Deserialize<RelatorioEstoque>(json);
 
-    var resumo = new List<Estoque>();
+    List<HistoricoEstoque> historicoEmMemoria = new List<HistoricoEstoque>();
+    //var resumo = new List<Estoque>();
     bool executando = true;
-
-    int opcao = 0;
 
     do
     {
         Console.Clear();
         Console.WriteLine("\n=== MENU ESTOQUE ===\n");
         Console.WriteLine(
-        " 1 - Adicionar Produtos ao Estoque\n 2 - Remover Produtos do Estoque\n 3 - Listar Produtos em Estoque\n 4 - Sair");
+        " 1 - Adicionar Produtos ao Estoque\n 2 - Remover Produtos do Estoque\n 3 - Listar Produtos em Estoque\n 4 - Histórico de Movimentação\n 5 - Sair");
 
         Console.WriteLine("Escolha uma opção...");
-        opcao = int.Parse(Console.ReadLine());
-        int codProduto,quantidade;
+        string entrada = Console.ReadLine();
+        int opcao, codProduto,quantidade;
+        while (!int.TryParse(entrada, out opcao))
+        {
+            Console.WriteLine("Opção inválida. Por favor, digite um número válido.");
+            Console.WriteLine("Escolha uma opção...");
+            entrada = Console.ReadLine();
+        }
 
         switch (opcao)
         {            
@@ -37,8 +42,7 @@ if (File.Exists(estoque))
                     Console.WriteLine("Digite a quantidade a ser adicionada:");
                     quantidade = int.Parse(Console.ReadLine());
 
-                    MovimentacaoEstoque.AdicionarProduto(codProduto, desProduto, quantidade, documento.Estoque);
-
+                    MovimentacaoEstoque.AdicionarProduto(codProduto, desProduto, quantidade, documento.Estoque, historicoEmMemoria);
                 }
                 else
                 {
@@ -47,7 +51,7 @@ if (File.Exists(estoque))
                     Console.WriteLine("Digite a quantidade a ser adicionada:");
                     quantidade = int.Parse(Console.ReadLine());
 
-                    MovimentacaoEstoque.AdicionarProduto(codProduto, "", quantidade, documento.Estoque);
+                    MovimentacaoEstoque.AdicionarProduto(codProduto, "", quantidade, documento.Estoque, historicoEmMemoria);
                 }                
 
                 MovimentacaoEstoque.PressionarParaContinuar();
@@ -58,16 +62,9 @@ if (File.Exists(estoque))
                 codProduto = int.Parse(Console.ReadLine());
                 Console.WriteLine("Digite a quantidade a ser removida:");
                 quantidade = int.Parse(Console.ReadLine());
-
-                var produtoExistente = documento.Estoque.FirstOrDefault(p => p.CodProduto == codProduto);
-                if (produtoExistente != null && produtoExistente.Quantidade >= quantidade)
-                {
-                    MovimentacaoEstoque.RemoverProduto(codProduto, quantidade, documento.Estoque);
-                }
-                else
-                {
-                    Console.WriteLine("Estoque insuficiente ou produto não encontrado.");
-                }
+                
+                MovimentacaoEstoque.RemoverProduto(codProduto, quantidade, documento.Estoque, historicoEmMemoria);
+                
                 MovimentacaoEstoque.PressionarParaContinuar();
                 break;
 
@@ -77,6 +74,11 @@ if (File.Exists(estoque))
                 break;
 
             case 4:
+                MovimentacaoEstoque.ListarHistoricoMovimentacao(historicoEmMemoria);
+                MovimentacaoEstoque.PressionarParaContinuar();
+                break;
+
+            case 5:
                 executando = false;
                 Console.WriteLine("Saindo do programa...");
                 break;

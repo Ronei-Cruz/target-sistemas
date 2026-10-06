@@ -13,13 +13,14 @@ public class Estoque
 public class RelatorioEstoque
 {
     [JsonPropertyName("estoque")]
-    public List<Estoque> Estoque { get; set; }
+    public List<Estoque> Estoque { get; set; }    
 }
 
-public class ResumoEstoque
+public class HistoricoEstoque
 {
     public int CodProduto { get; set; }
     public string DesProduto { get; set; }
-    public int Movimentacao { get; set; }
+    public string Movimentacao { get; set; }
     public int Quantidade { get; set; }
+    public DateTime DataMovimentacao { get; set; }
 }
