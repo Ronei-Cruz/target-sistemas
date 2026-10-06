@@ -8,7 +8,6 @@ if (File.Exists(estoque))
     var documento = JsonSerializer.Deserialize<RelatorioEstoque>(json);
 
     List<HistoricoEstoque> historicoEmMemoria = new List<HistoricoEstoque>();
-    //var resumo = new List<Estoque>();
     bool executando = true;
 
     do

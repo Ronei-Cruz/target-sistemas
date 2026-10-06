@@ -29,7 +29,6 @@ public static class MovimentacaoEstoque
 
             HistoricoMovimentacao(codProduto, desProduto, quantidade, "ENTRADA", historicoMovimentacao);
         }
-
     }
 
     public static void RemoverProduto( int codProduto, int quantidade, List<Estoque> estoque,List<HistoricoEstoque> historicoMovimentacao)
