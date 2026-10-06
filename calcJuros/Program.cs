@@ -1,7 +1,7 @@
 ﻿decimal taxaJuros = 0.025m;
 
 Console.WriteLine("=== CALCULAR JUROS ===");
-Console.Write("Valor da Conta: [1000.00]: R$ ");
+Console.Write("Valor da Conta: [1000,00]: R$ ");
 decimal valorInicial = decimal.Parse(Console.ReadLine());
 Console.Write("Dia de vencimento: [dd]: ");
 int diaVencimento = int.Parse(Console.ReadLine());
@@ -19,5 +19,5 @@ if(dataVencimento > DateTime.Today)
 
 int diasVencidos = (DateTime.Today - dataVencimento.Date).Days;
 var juros = CalculadoraJuros.CalcularJuros(valorInicial, taxaJuros, diasVencidos);
-Console.WriteLine($"\nDias de atraso: {diasVencidos} dias");
-Console.WriteLine($"\n--- Valor final com juros: R$ {juros:F2} ---\n");
+Console.WriteLine("\n=== RESULTADO ===");
+Console.WriteLine($"\nDias de atraso: {diasVencidos} dias \nTaxa de juros: {juros.TaxaJuros:P2} ao dia \nValor Inicial: R$ {valorInicial:F2} \nValor dos juros: R$ {juros.ValorJuros:F2} \nValor final com juros: R$ {juros.ValorFinal:F2}");
