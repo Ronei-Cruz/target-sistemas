@@ -18,6 +18,7 @@ public class RelatorioEstoque
 
 public class HistoricoEstoque
 {
+    public int IdMovimentacao { get; set; }
     public int CodProduto { get; set; }
     public string DesProduto { get; set; }
     public string Movimentacao { get; set; }

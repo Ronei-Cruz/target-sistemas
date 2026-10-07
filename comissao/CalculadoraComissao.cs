@@ -6,9 +6,9 @@ public static class CalculadoraComissao
             return 0.0m;
     
         if(valorVenda < 500)
-            return Math.Round(valorVenda * 0.01m, 2);
+            return valorVenda * 0.01m;
         else
-            return Math.Round(valorVenda * 0.05m, 2);
+            return valorVenda * 0.05m;
         
     }
 
@@ -20,7 +20,8 @@ public static class CalculadoraComissao
             {
                 Vendedor = grupo.Key,
                 TotalVendas = grupo.Count(),
-                TotalComissao = Math.Round(grupo.Sum(v => ObterComissao(v.Valor)), 2)
+                TotalComissao = Math.Round(
+                    grupo.Sum(v => ObterComissao(v.Valor)), 2)
             })
             .ToList();
     }
