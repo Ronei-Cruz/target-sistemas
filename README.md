@@ -106,21 +106,21 @@ Cada exercício foi desenvolvido como um projeto independente.
 
 ```text
 /
-├── Comissão/
+├── comissao/
 │   ├── Program.cs
-│   ├── Model.cs
-│   ├── SolucaoMetodo.cs
+│   ├── Vendas.cs
+│   ├── CalculadoraComissao.cs
 │   └── comissao.json
 │
-├── Estoque/
+├── estoque/
 │   ├── Program.cs
-│   ├── Model.cs
+│   ├── Estoque.cs
 │   ├── MovimentacaoEstoque.cs
 │   └── estoque.json
 │
-├── Calcular Juros/
+├── calcJuros/
 │   ├── Program.cs
-│   ├── Model.cs
+│   ├── JurosSimples.cs
 │   └── CalculadoraJuros.cs
 │
 └── README.md
